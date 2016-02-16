@@ -95,10 +95,12 @@ pre {
 	.hidden;
 }
 
-.main-header h1 {
-	border: none !important;
-	padding: 0;
-	overflow: visible;
+.main-header, .contingut-section, .contingut-header {
+	h1, h2 {
+		border: none !important;
+		padding: 0;
+		overflow: visible;
+	}
 }
 
 ul#menu-lateral {
@@ -115,3 +117,30 @@ ul#menu-lateral li:before {
 ul#menu-lateral li a {
 	display: inline-block;
 }
+
+li.toclevel-2 {
+	margin-left: 30px;
+	a {
+		padding-left: 0 !important;
+	}
+}
+
+li.toclevel-3 {
+	margin-left: 45px;
+	a {
+		padding-left: 0 !important;
+	}
+}
+
+li.toclevel-4 {
+	margin-left: 45px;
+	a {
+		padding-left: 0 !important;
+	}
+}
+
+.contingut-section h2 {
+	border: none;
+}
+
+.mw-editsection, .patrollink { display:none!important; }

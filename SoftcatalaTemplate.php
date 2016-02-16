@@ -10,6 +10,7 @@ class SoftcatalaTemplate extends BaseTemplate {
 	 */
 	public function execute() {
 		$this->html( 'headelement' );
+		$html = $this->extractTocContents($this->data['bodycontent']);
 		?>
 		<main class="main wrap-blanc cd-main-content">
 			<header class="main-header">
@@ -39,25 +40,32 @@ class SoftcatalaTemplate extends BaseTemplate {
 	              </a>
 	            </div>
 				<?php
-				echo '<ul id="menu-lateral" class="nav collapse navbar-collapse">';
+				echo $html['toc'];
+				echo '<ul>';
 					$personalTools = $this->getPersonalTools();
 							foreach ( $personalTools as $key => $item ) {
 								echo $this->makeListItem( $key, $item );
 							}
 				echo '</ul><br/>';
 				$this->outputSearch();
-				echo '<div id="page-tools">';
+				echo '<ul>';
 					$this->outputPageLinks();
-				echo '</div><div id="site-navigation">';
-					$this->outputSiteNavigation();
-				echo '</div>';
+				echo '</ul>';
 				?>
 				</aside>
 				<div class="contingut col-sm-9">
-				<?php $html = $this->extractTocContents($this->data['bodycontent']);
-                    echo $html['content'];
-					$this->clear();
-					?>
+				<header class="contingut-header">
+                <h1><?php $this->html( 'title' ) ?></h1>
+                </header>
+				<section class="contingut-section">
+				<?php
+				if ( isset ( $html['content'] ) ) {
+				    echo $html['content'];
+				} else {
+				    $this->html( 'bodycontent' );
+				}
+				 ?>
+				</section>
 				</div>	
 			</div>
 		</main>
@@ -237,24 +245,37 @@ class SoftcatalaTemplate extends BaseTemplate {
 	}
 
 	private function extractTocContents($html) {
-	    $before = '<div id="toc" class="toc">';
-	    $after = '</div>';
-        $first_step = explode( $before , $html );
-        $second_step = explode($after , $first_step[1] );
+	    $action = $_GET['action'];
+	    if ( $action != 'edit') {
+	        $dom = new DOMDocument();
 
-        $content['toc'] = $second_step[0].$second_step[1];
+            $dom->loadHTML('<?xml version="1.0" encoding="UTF-8"?>' . $html);
+            $xpath = new DOMXPath($dom);
+            $div = $xpath->query('//div[@id="toc"]');
+            $div = $div->item(0);
 
+            if ( ! empty ( $div ) ) {
 
-        $dom = new DOMDocument();
+                $toc = $dom->saveXML($div);
+                $toc = str_replace( '<div id="toctitle"><h2>Contingut</h2></div>', '', $toc );
+                $toc = str_replace( 'id="toc" class="toc"', '', $toc );
+                $toc = str_replace( '<ul>', '<ul id="menu-lateral" class="nav collapse navbar-collapse">', $toc );
 
-        $dom->loadHTML('<?xml version="1.0" encoding="UTF-8"?>' . $html);
-        $xpath = new DOMXPath($dom);
-        $div = $xpath->query('//div[@id="toc"]');
-        $div = $div->item(0);
+                preg_match_all('/<span class=\"tocnumber\">(.*)<\/span>/iU', $toc, $match);
+                foreach ( $match[0] as $number ) {
+                    $toc = str_replace( $number, '', $toc );
+                }
 
-        $content['toc'] = $dom->saveXML($div);
-        $div->parentNode->removeChild($div);
-        $content['content'] = $dom->saveXML();
+                $content['toc'] = $toc.'<br/>';
+                $div->parentNode->removeChild($div);
+            } else {
+                $content['toc'] = '';
+            }
+
+            $content['content'] = $dom->saveXML();
+	    } else {
+	        $content = array();
+	    }
 
         return $content;
 	}
