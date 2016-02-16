@@ -1,0 +1,56 @@
+{
+	"name": "Softcatala",
+	"version": "1.0",
+	"author": "...",
+	"url": "https://www.softcatala.org",
+	"descriptionmsg": "MediaWiki Skin for Softcatalà site",
+	"namemsg": "softcatala",
+	"license-name": "CC0-1.0",
+	"type": "skin",
+	"ValidSkinNames": {
+		"softcatala": "Softcatala"
+	},
+	"MessagesDirs": {
+		"Softcatala": [
+			"i18n"
+		]
+	},
+	"ResourceModules": {
+		"skins.softcatala": {
+			"class": "ResourceLoaderSkinModule",
+			"position": "top",
+			"styles": {
+				"resources/libraries/normalise.css": {
+					"media": "screen"
+				},
+				"resources/screen-common.less": {
+					"media": "screen"
+				},
+				"resources/screen-desktop.less": {
+					"media": "screen and (min-width: 751px)"
+				},
+				"resources/screen-mobile.less": {
+					"media": "screen and (max-width: 750px)"
+				},
+				"resources/print.css": {
+					"media": "print"
+				}
+			}
+		},
+		"skins.softcatala.js": {
+			"position": "bottom",
+			"scripts": [
+				"resources/main.js"
+			]
+		}
+	},
+	"ResourceFileModulePaths": {
+		"localBasePath": "",
+		"remoteSkinPath": "Softcatala"
+	},
+	"AutoloadClasses": {
+		"SkinSoftcatala": "Softcatala.skin.php",
+		"SoftcatalaTemplate": "SoftcatalaTemplate.php"
+	},
+	"manifest_version": 1
+}
