@@ -54,7 +54,8 @@ class SoftcatalaTemplate extends BaseTemplate {
 				?>
 				</aside>
 				<div class="contingut col-sm-9">
-				<?php $this->html( 'bodycontent' );
+				<?php $html = $this->extractTocContents($this->data['bodycontent']);
+                    echo $html['content'];
 					$this->clear();
 					?>
 				</div>	
@@ -233,5 +234,28 @@ class SoftcatalaTemplate extends BaseTemplate {
 	 */
 	private function clear() {
 		echo '<div class="visualClear"></div>';
+	}
+
+	private function extractTocContents($html) {
+	    $before = '<div id="toc" class="toc">';
+	    $after = '</div>';
+        $first_step = explode( $before , $html );
+        $second_step = explode($after , $first_step[1] );
+
+        $content['toc'] = $second_step[0].$second_step[1];
+
+
+        $dom = new DOMDocument();
+
+        $dom->loadHTML('<?xml version="1.0" encoding="UTF-8"?>' . $html);
+        $xpath = new DOMXPath($dom);
+        $div = $xpath->query('//div[@id="toc"]');
+        $div = $div->item(0);
+
+        $content['toc'] = $dom->saveXML($div);
+        $div->parentNode->removeChild($div);
+        $content['content'] = $dom->saveXML();
+
+        return $content;
 	}
 }
