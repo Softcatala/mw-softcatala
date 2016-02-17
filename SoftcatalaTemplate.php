@@ -21,9 +21,9 @@ class SoftcatalaTemplate extends BaseTemplate {
 							<div class="compartiu">
 				                <p>Compartiu</p>
 				                <ul class="compartiu-media">
-				                  <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-				                  <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-				                  <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+				                  <li><a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $this->getCurrentUrl() ?>"><i class="fa fa-facebook"></i></a></li>
+				                  <li><a href="https://twitter.com/intent/tweet?text=<?php echo $this->getCurrentUrl() ?> <?php echo $this->data['title'] ?>"><i class="fa fa-twitter"></i></a></li>
+				                  <li><a href="https://plus.google.com/share?url=<?php echo $this->getCurrentUrl() ?>"><i class="fa fa-google-plus"></i></a></li>
 				                </ul>
 			              	</div>
 						</div>
@@ -278,5 +278,12 @@ class SoftcatalaTemplate extends BaseTemplate {
 	    }
 
         return $content;
+	}
+
+	private function getCurrentUrl()
+	{
+	    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+
+	    return $actual_link;
 	}
 }
