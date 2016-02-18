@@ -41,16 +41,29 @@ class SoftcatalaTemplate extends BaseTemplate {
 	            </div>
 				<?php
 				echo $html['toc'];
-				echo '<ul>';
-					$personalTools = $this->getPersonalTools();
-							foreach ( $personalTools as $key => $item ) {
-								echo $this->makeListItem( $key, $item );
-							}
-				echo '</ul><br/>';
-				$this->outputSearch();
-				echo '<ul>';
-					$this->outputPageLinks();
-				echo '</ul>';
+				?>
+				<div class="caixa-gris">
+                <p>Eines d'usuari</p>
+                <?php
+                $personalTools = $this->getPersonalTools();
+                foreach ( $personalTools as $key => $item ): ?>
+                        <a href="<?php echo $item['links'][0]['href'] ?>" title="<?php echo $item['links'][0]['single-id'] ?>"><i class="<?php echo $this->getIconList($item['links'][0]['single-id']) ?>"> </i> <span><?php echo $item['links'][0]['text'] ?></span></a>
+                <?php endforeach; ?>
+                </div><br/>
+
+				<form id="p-search" class="searchform" role="search" action="<?php $this->text( 'wgScript' ) ?>">
+                    <input type="hidden" value="Especial:Cerca" name="title">
+                    <div class="input-group">
+                    <input type="search" id="searchInput" accesskey="f" title="Cerca a Softcatalà [Alt+Maj+f]" placeholder="Cerca" name="search" class="cerca_input">
+                    <span class="input-group-addon">
+                    <button type="submit" class="btn lupa" id="searchGoButton" value="Vés-hi" name="go">
+                    <i class="fa fa-search"></i>
+                    </button>
+                    </span>
+                    </div>
+                </form>
+				<?php
+				$this->outputPageLinks();
 				?>
 				</aside>
 				<div class="contingut col-sm-9">
@@ -104,13 +117,11 @@ class SoftcatalaTemplate extends BaseTemplate {
 		}
 
 		?>
-		<div
-			role="navigation"
-			class="mw-portlet"
+		<div class="caixa-gris"
 			id="<?php echo Sanitizer::escapeId( $box['id'] ) ?>"
 			<?php echo Linker::tooltip( $box['id'] ) ?>
 		>
-			<h3>
+			<p>
 				<?php
 				if ( isset( $box['headerMessage'] ) ) {
 					echo $this->getMsg( $box['headerMessage'] )->escaped();
@@ -118,7 +129,7 @@ class SoftcatalaTemplate extends BaseTemplate {
 					echo htmlspecialchars( $box['header'], ENT_QUOTES );
 				}
 				?>
-			</h3>
+			</p>
 
 			<?php
 			if ( is_array( $box['content'] ) ) {
@@ -285,5 +296,35 @@ class SoftcatalaTemplate extends BaseTemplate {
 	    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 	    return $actual_link;
+	}
+
+    /**
+     * This function returns the 'awesome' icon for each element of the user actions list
+     * @param $item
+     * @return string
+     */
+	private function getIconList($item)
+	{
+	    switch($item) {
+	        case 'pt-userpage':
+	            $icon = 'fa fa-home fa-fw';
+	            break;
+	        case 'pt-mytalk':
+	            $icon = 'fa fa-quote-left';
+	            break;
+	        case 'pt-watchlist':
+	            $icon = 'fa fa-list';
+	            break;
+	        case 'pt-mycontris':
+	            $icon = 'fa fa-dot-circle-o';
+	            break;
+	        case 'pt-logout':
+	            $icon = 'fa fa-sign-out';
+	            break;
+	        default:
+	            $icon = 'fa fa-cog fa-fw';
+	    }
+
+	    return $icon;
 	}
 }
