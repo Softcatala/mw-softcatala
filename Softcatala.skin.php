@@ -42,29 +42,7 @@ class SkinSoftcatala extends SkinTemplate {
 	 */
 	function getCommonHeader()
 	{
-		$header = '<!-- .pag-header -->
-    <header class="pag-header cd-main-header">
-      <!-- navbar -->
-      <nav class="navbar">
-
-          <!-- .wrap-gris .hidden-xs -->
-          <div class="wrap-gris hidden-xs">
-            <div class="container-fluid">
-
-              <!-- .navbar-noticies .hidden-xs -->
-              <div class="navbar-noticies">
-                <ul class="nav navbar-nav">
-                  <li><a href="/noticies/">Notícies</a></li>
-                  <li><a href="/esdeveniments/">Esdeveniments</a></li>
-                  <li><a href="#">Premsa</a></li>
-                  <li><a href="#">Fòrums</a></li>
-                </ul>
-              </div><!--/.navbar-noticies .hidden-xs -->
-            </div><!--/.container-fluid -->
-          </div><!--/.wrap-gris -->
-
-          <!--#include virtual="/ssi/menu-header.html" -->
-    </header><!--/.pag-header -->';
+		$header = '<!--#include virtual="/ssi/menu-header.html" -->';
 
     	return $header;
 	}
