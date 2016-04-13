@@ -40,7 +40,9 @@ class SoftcatalaTemplate extends BaseTemplate {
 	              </a>
 	            </div>
 				<?php
-				echo $html['toc'];
+				if (isset( $html['toc'] )) {
+					echo $html['toc'];
+				}
 				?>
 				<div class="caixa-gris">
                 <p>Eines d'usuari</p>
