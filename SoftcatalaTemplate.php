@@ -274,7 +274,7 @@ class SoftcatalaTemplate extends BaseTemplate {
 	}
 
 	private function extractTocContents($html) {
-		if ( isset $_GET['action'] )) {
+		if ( isset ( $_GET['action'] )) {
 			$action = $_GET['action'];
 		    if ( $action != 'edit') {
 		        $dom = new DOMDocument();
