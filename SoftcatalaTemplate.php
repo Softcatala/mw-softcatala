@@ -65,6 +65,15 @@ class SoftcatalaTemplate extends BaseTemplate {
 				<?php
 				$this->outputPageLinks();
 				?>
+
+<div id="p-views" class="caixa-gris">
+					<ul>
+						<li id="ca-view" class="selected">
+							<a accesskey="h" title="Versions antigues d'aquesta pàgina [Alt+Maj+h]" href="/wiki/Especial:Enlla%C3%A7os/<?php $this->html( 'title' ) ?>">Qui hi enllaça</a>
+						</li>
+					</ul>
+				</div>
+
 				</aside>
 				<div class="contingut col-sm-9">
 				<header class="contingut-header">
@@ -77,9 +86,18 @@ class SoftcatalaTemplate extends BaseTemplate {
 				} else {
 				    $this->html( 'bodycontent' );
 				}
+
+                                if ( $this->data['catlinks'] ) {
+					$this->html( 'catlinks' );
+				}
+
+				if ( $this->data['dataAfterContent'] ) {
+					$this->html( 'dataAfterContent' );
+				}
+
 				 ?>
 				</section>
-				</div>	
+				</div>
 			</div>
 		</main>
 		<div id="mw-wrapper">
@@ -256,35 +274,40 @@ class SoftcatalaTemplate extends BaseTemplate {
 	}
 
 	private function extractTocContents($html) {
-	    $action = $_GET['action'];
-	    if ( $action != 'edit') {
-	        $dom = new DOMDocument();
+		if ( isset $_GET['action'] )) {
+			$action = $_GET['action'];
+		    if ( $action != 'edit') {
+		        $dom = new DOMDocument();
 
-            $dom->loadHTML('<?xml version="1.0" encoding="UTF-8"?>' . $html);
-            $xpath = new DOMXPath($dom);
-            $div = $xpath->query('//div[@id="toc"]');
-            $div = $div->item(0);
+	            $dom->loadHTML('<?xml version="1.0" encoding="UTF-8"?>' . $html);
+	            $xpath = new DOMXPath($dom);
+	            $div = $xpath->query('//div[@id="toc"]');
+	            $div = $div->item(0);
 
-            if ( ! empty ( $div ) ) {
+	            if ( ! empty ( $div ) ) {
 
-                $toc = $dom->saveXML($div);
-                $toc = str_replace( '<div id="toctitle"><h2>Contingut</h2></div>', '', $toc );
-                $toc = str_replace( 'id="toc" class="toc"', '', $toc );
-                $toc = str_replace( '<ul>', '<ul id="menu-lateral" class="nav collapse navbar-collapse">', $toc );
+	                $toc = $dom->saveXML($div);
+	                $toc = str_replace( '<div id="toctitle"><h2>Contingut</h2></div>', '', $toc );
+	                $toc = str_replace( 'id="toc" class="toc"', '', $toc );
+	                $toc = str_replace( '<ul>', '<ul id="menu-lateral" class="nav collapse navbar-collapse">', $toc );
 
-                preg_match_all('/<span class=\"tocnumber\">(.*)<\/span>/iU', $toc, $match);
-                foreach ( $match[0] as $number ) {
-                    $toc = str_replace( $number, '', $toc );
-                }
+	                preg_match_all('/<span class=\"tocnumber\">(.*)<\/span>/iU', $toc, $match);
+	                foreach ( $match[0] as $number ) {
+	                    $toc = str_replace( $number, '', $toc );
+	                }
 
-                $content['toc'] = $toc.'<br/>';
-                $div->parentNode->removeChild($div);
-            } else {
-                $content['toc'] = '';
-            }
+	                $content['toc'] = $toc.'<br/>';
+	                $div->parentNode->removeChild($div);
+	            } else {
+	                $content['toc'] = '';
+	            }
 
-            $content['content'] = $dom->saveXML();
-	    } else {
+	            $content['content'] = $dom->saveXML();
+			}
+			else {
+				$content = array();
+			}
+		} else {
 	        $content = array();
 	    }
 
