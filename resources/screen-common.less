@@ -4,6 +4,10 @@
 
 // Page layout
 
+a.bt-basic {
+	color: #333 !important;
+}
+
 #mw-wrapper {
 	max-width: @width;
 	margin: 0 auto;
@@ -107,12 +111,14 @@ ul#menu-lateral {
 	margin-left: -15px;
 }
 
+ul.list-unstyled { margin: 0px !important; }
+
 ul#menu-lateral li:before {
     font-family: 'FontAwesome';
     content: '\f105';
     font-size: 13px;
     margin: 0 15px 0 0;
-}	
+}
 
 ul#menu-lateral li a {
 	display: inline-block;
@@ -242,4 +248,8 @@ div.mw-search-profile-tabs {
 		border: 1px solid #e64b3c;
 		opacity: 0.7;
 	}
+}
+
+.mw-content-ltr #toc ul ul {
+	margin: 0px;
 }
