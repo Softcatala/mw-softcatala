@@ -44,6 +44,8 @@ class SoftcatalaTemplate extends BaseTemplate {
 					echo $html['toc'];
 				}
 				?>
+
+
 				<div class="caixa-gris">
                 <p>Eines d'usuari</p>
                 <?php
@@ -51,8 +53,8 @@ class SoftcatalaTemplate extends BaseTemplate {
                 foreach ( $personalTools as $key => $item ): ?>
                         <a href="<?php echo $item['links'][0]['href'] ?>" title="<?php echo $item['links'][0]['single-id'] ?>"><i class="<?php echo $this->getIconList($item['links'][0]['single-id']) ?>"> </i> <span><?php echo $item['links'][0]['text'] ?></span></a>
                 <?php endforeach; ?>
-                </div><br/>
-
+                </div>
+<?php echo $this->outputSiteNavigation() ?>
 				<form id="p-search" class="searchform" role="search" action="<?php $this->text( 'wgScript' ) ?>">
                     <input type="hidden" value="Especial:Cerca" name="title">
                     <div class="input-group">
@@ -67,7 +69,6 @@ class SoftcatalaTemplate extends BaseTemplate {
 				<?php
 				$this->outputPageLinks();
 				?>
-
 <div id="p-views" class="caixa-gris">
 					<ul>
 						<li id="ca-view" class="selected">
@@ -218,7 +219,6 @@ class SoftcatalaTemplate extends BaseTemplate {
 	 */
 	private function outputSiteNavigation() {
 		$sidebar = $this->getSidebar();
-
 		$sidebar['SEARCH'] = false;
 		$sidebar['TOOLBOX'] = true;
 		$sidebar['LANGUAGES'] = true;
@@ -235,11 +235,11 @@ class SoftcatalaTemplate extends BaseTemplate {
 	 * Outputs page-related tools/links
 	 */
 	private function outputPageLinks() {
-		$this->outputPortlet( array(
+		/*$this->outputPortlet( array(
 			'id' => 'p-namespaces',
 			'headerMessage' => 'namespaces',
 			'content' => $this->data['content_navigation']['namespaces'],
-		) );
+		) );*/
 		$this->outputPortlet( array(
 			'id' => 'p-variants',
 			'headerMessage' => 'variants',
