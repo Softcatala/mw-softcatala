@@ -20,7 +20,7 @@
 			"class": "ResourceLoaderSkinModule",
 			"position": "top",
 			"styles": {
-				"resources/libraries/normalise.css": {
+				"resources/libraries/sc.css": {
 					"media": "screen"
 				},
 				"resources/screen-common.less": {
