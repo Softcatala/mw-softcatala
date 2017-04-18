@@ -318,9 +318,7 @@ class SoftcatalaTemplate extends BaseTemplate {
 
 	private function getCurrentUrl()
 	{
-	    $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-
-	    return $actual_link;
+	    return "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 	}
 
     /**
